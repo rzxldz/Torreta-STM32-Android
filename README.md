@@ -192,7 +192,7 @@ Su participación se enfocó principalmente en:
 
 El reporte técnico completo del proyecto se encuentra dentro del repositorio:
 
-[Ver reporte técnico](docs/reporte-torreta-ibero.pdf)
+[Ver reporte técnico](docs/reporte_torreta_ibero.pdf)
 
 El documento incluye:
 
