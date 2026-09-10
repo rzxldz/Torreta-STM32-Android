@@ -1,0 +1,25 @@
+# Android Studio
+*.iml
+/.idea
+.gradle
+/.kotlin
+
+# Local configuration
+/local.properties
+
+# Build
+/build
+/app/build
+/captures
+
+# Native
+.externalNativeBuild
+.cxx
+
+# System
+.DS_Store
+
+# Signing / secrets
+*.jks
+*.keystore
+secrets.properties
