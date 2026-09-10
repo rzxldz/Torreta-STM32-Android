@@ -1,95 +1,129 @@
-Torreta STM32 + Android
+# Torreta STM32 + Android
 
-Proyecto académico de Sistemas Embebidos desarrollado en la Universidad Iberoamericana Ciudad de México.
+Proyecto académico de **Sistemas Embebidos** desarrollado en la **Universidad Iberoamericana Ciudad de México**.
 
-El sistema integra una aplicación Android con un microcontrolador STM32 para controlar y supervisar una torreta física mediante comunicación Bluetooth. La aplicación permite gestionar la conexión, enviar comandos de control y visualizar telemetría recibida desde el sistema embebido.
+El sistema integra una aplicación Android con una torreta física controlada mediante un microcontrolador **STM32 Blue Pill**. La comunicación se realiza por Bluetooth utilizando un módulo **HC-05**, permitiendo enviar comandos desde el teléfono y recibir telemetría del sistema.
 
-Capturas
+---
 
-Telemetría y estado del sistema
+## Capturas de la aplicación
 
+### Telemetría y estado del sistema
 
+![Telemetría de la torreta](screenshots/torreta-1-telemetria.png)
 
-Bluetooth y control manual
+### Bluetooth y control manual
 
+![Control Bluetooth de la torreta](screenshots/torreta-2-control-bluetooth.png)
 
+---
 
-Funcionalidades
+## Funcionalidades
 
-Conexión Bluetooth con el sistema embebido.
+- Conexión Bluetooth mediante HC-05.
+- Búsqueda y selección de dispositivos Bluetooth.
+- Control manual de movimiento de la torreta.
+- Movimiento hacia izquierda y derecha.
+- Activación del mecanismo de disparo.
+- Cambio entre modo manual y automático.
+- Control de fuerza desde la aplicación.
+- Recepción de telemetría desde el STM32.
+- Lectura de distancia mediante HC-SR04.
+- Visualización del estado de conexión.
+- Registro de eventos mediante un log dentro de la aplicación.
+- Herramientas de simulación para pruebas de interfaz.
 
-Selección y conexión de dispositivos compatibles.
+---
 
-Control manual de movimiento.
+## Tecnologías
 
-Cambio entre modos manual y automático.
+### Aplicación Android
 
-Envío de comandos desde la aplicación Android.
+- Kotlin
+- Jetpack Compose
+- Android SDK
+- Android Studio
+- Bluetooth
+- ViewModel
+- Material Design
+- Gradle Kotlin DSL
 
-Recepción y visualización de telemetría.
+### Sistemas embebidos
 
-Lectura de distancia obtenida mediante sensor ultrasónico.
+- STM32 Blue Pill
+- C
+- UART
+- PWM
+- HC-05 Bluetooth
+- HC-SR04
+- Servomotor
+- Motor DC 775
+- Driver L298N
 
-Visualización del estado de conexión y log del sistema.
+---
 
-Herramientas de simulación para pruebas de interfaz.
+## Arquitectura del sistema
 
-Tecnologías
+La aplicación Android envía comandos al STM32 mediante Bluetooth utilizando el módulo HC-05.
 
+El flujo general de comunicación es:
+
+```text
 Aplicación Android
-
-Kotlin
-
-Jetpack Compose
-
-Android SDK
-
-Android Studio
-
 Bluetooth
-
-ViewModel
-
-Material Design
-
-Gradle Kotlin DSL
-
-Sistema embebido
-
-STM32 Blue Pill
-
-C
-
+HC-05
 UART
-
-PWM
-
-HC-05 Bluetooth
-
-HC-SR04
-
-Servomotor
-
-Motor DC
-
-Driver L298N
-
-Arquitectura general
-
-Aplicación Android
-      ↓
-Bluetooth / HC-05
-      ↓
-UART
-      ↓
 STM32
-      ↓
 Sensores y actuadores
+```
 
-La aplicación envía comandos al STM32 y recibe información de telemetría a través del enlace Bluetooth.
+El STM32 procesa los comandos recibidos y controla los componentes físicos del sistema. También envía información de telemetría de regreso a la aplicación.
 
-Estructura principal de la aplicación
+---
 
+## Comunicación Bluetooth
+
+La aplicación Android se comunica con el STM32 mediante el módulo HC-05 utilizando comunicación serial UART a 9600 bps.
+
+El sistema utiliza comandos de un carácter para ejecutar acciones.
+
+| Comando | Acción |
+|---|---|
+| `L` | Mover la torreta a la izquierda |
+| `R` | Mover la torreta a la derecha |
+| `S` | Activar el disparo |
+| `M` | Cambiar a modo manual |
+| `A` | Cambiar a modo automático |
+
+El STM32 también puede enviar telemetría de regreso a la aplicación.
+
+Ejemplo:
+
+```text
+D:45
+```
+
+En este caso, `45` representa la distancia medida en centímetros.
+
+---
+
+## Componentes principales
+
+| Componente | Función |
+|---|---|
+| STM32 Blue Pill | Control principal del sistema |
+| HC-05 | Comunicación Bluetooth con Android |
+| HC-SR04 | Medición de distancia |
+| Servomotor | Movimiento horizontal |
+| Motor DC 775 | Mecanismo de disparo |
+| L298N | Control del motor DC |
+| Aplicación Android | Interfaz de control y telemetría |
+
+---
+
+## Estructura de la aplicación
+
+```text
 app/src/main/java/com/example/lanzadorstm32/
 
 ├── MainActivity.kt
@@ -99,78 +133,120 @@ app/src/main/java/com/example/lanzadorstm32/
 │   └── ControlScreen.kt
 └── viewmodel/
     └── MainViewModel.kt
+```
 
-Mi contribución
+### MainActivity
 
-Jorge Emmanuel Roldán Márquez
+Punto de entrada de la aplicación Android.
 
-Me encargué principalmente del desarrollo de software y de la integración entre la aplicación Android y el hardware.
+### BluetoothService
 
-Responsabilidades principales:
+Gestiona la conexión y comunicación Bluetooth con el módulo HC-05.
 
-Desarrollo de la aplicación Android en Kotlin.
+### ControlScreen
 
-Diseño e implementación de la interfaz.
+Contiene la interfaz principal para telemetría, conexión Bluetooth y control de la torreta.
 
-Implementación de la comunicación Bluetooth.
+### MainViewModel
 
-Programación de comandos y recepción de telemetría.
+Administra el estado de la interfaz y conecta la capa visual con las funciones de control y comunicación.
 
-Integración del software con el STM32.
+---
 
-Conexión e integración de los componentes electrónicos.
+## Mi contribución
 
-Configuración y pruebas de comunicación entre Android, HC-05 y STM32.
+### Jorge Emmanuel Roldán Márquez
 
-Pruebas y depuración del sistema completo.
+Mi participación se enfocó principalmente en el **desarrollo de software y la integración hardware/software**.
 
-Colaborador
+Me encargué de:
 
-Jorge Olaf Quijas Pérez
+- Desarrollo de la aplicación Android en Kotlin.
+- Desarrollo de la interfaz de control.
+- Implementación de la comunicación Bluetooth.
+- Integración con el módulo HC-05.
+- Programación de comandos enviados al STM32.
+- Recepción y visualización de telemetría.
+- Integración del software con el microcontrolador.
+- Conexión e integración de los componentes electrónicos.
+- Configuración y pruebas de comunicación UART.
+- Integración del servomotor, sensor ultrasónico y sistema de disparo.
+- Pruebas y depuración del sistema completo.
+
+---
+
+## Colaborador
+
+### Jorge Olaf Quijas Pérez
 
 Su participación se enfocó principalmente en:
 
-Diseño y construcción física de la torreta.
+- Diseño y construcción física de la torreta.
+- Apoyo en la selección de componentes de hardware.
+- Construcción y adaptación de la estructura mecánica.
+- Colaboración durante las pruebas e integración del sistema.
 
-Apoyo en la selección de componentes de hardware.
+---
 
-Construcción y adaptación de la estructura mecánica.
+## Documentación
 
-Colaboración durante las pruebas e integración del sistema.
+El reporte técnico completo del proyecto se encuentra dentro del repositorio:
 
-Documentación
+[Ver reporte técnico](docs/reporte-torreta-ibero.pdf)
 
-El reporte técnico completo del proyecto se encuentra en:
+El documento incluye:
 
-Ver reporte técnico
+- Descripción general del sistema.
+- Componentes utilizados.
+- Conexiones eléctricas.
+- Comunicación Bluetooth.
+- Protocolo de comandos.
+- Control mediante PWM.
+- Lectura del sensor ultrasónico.
+- Comunicación UART.
+- Fotografías del prototipo.
 
-El documento incluye la descripción general del sistema, componentes utilizados, protocolo de comunicación y documentación académica del proyecto.
+---
 
-Ejecución de la aplicación Android
+## Instalación
 
-Clonar el repositorio.
+Clonar el repositorio:
 
+```bash
 git clone https://github.com/rzxldz/Torreta-STM32-Android.git
+```
 
-Abrir el proyecto en Android Studio.
+Abrir el proyecto en **Android Studio**.
 
 Sincronizar las dependencias de Gradle.
 
-Ejecutar la aplicación en un dispositivo o emulador Android compatible.
+Ejecutar la aplicación en un dispositivo Android compatible.
 
-Para utilizar las funciones Bluetooth con el sistema físico es necesario disponer del hardware correspondiente.
+Para utilizar las funciones Bluetooth y controlar la torreta física es necesario contar con el hardware correspondiente.
 
-Estado del proyecto
+---
 
-El proyecto cuenta con una aplicación Android funcional para control, conexión Bluetooth y visualización de telemetría del sistema embebido.
+## Estado del proyecto
 
-Autores
+El proyecto cuenta con una aplicación Android funcional para:
 
-Jorge Emmanuel Roldán Márquez
-Desarrollo de software e integración hardware/software
+- Control de la torreta.
+- Conexión Bluetooth.
+- Envío de comandos.
+- Recepción de telemetría.
+- Control manual.
+- Operación automática.
+- Visualización del estado del sistema.
 
-Jorge Olaf Quijas Pérez
+---
+
+## Autores
+
+**Jorge Emmanuel Roldán Márquez**  
+Software e integración hardware/software
+
+**Jorge Olaf Quijas Pérez**  
 Construcción física y apoyo en selección de hardware
 
-Universidad Iberoamericana Ciudad de México
+**Universidad Iberoamericana Ciudad de México**  
 Sistemas Embebidos · 2025
